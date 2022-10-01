@@ -10,7 +10,7 @@ function getAllResources()
     return knex("resources").select("*");
 }
 
-function deleteResource(reservationId)
+function deleteResource(resourceId)
 {
     return knex("resources").where("resourceId", resourceId).del();
 }
