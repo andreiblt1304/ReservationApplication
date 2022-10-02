@@ -49,6 +49,10 @@ app.delete("/resources/:id", async (req, res) => {
     res.status(200).json({ succes: true });
 })
 
+app.get("/home", async (req, res) => {
+    res.status(200).json({ "result": "ok" });
+})
+
 app.listen(PORT, () => {
     console.log("Server is running at port " + PORT);
 });
