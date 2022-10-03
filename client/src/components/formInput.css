@@ -1,3 +1,11 @@
 *{
     padding: 10px;
 }
+
+span{
+    color: red;
+}
+
+input:invalid ~ span {
+    display: block;
+}

@@ -7,6 +7,9 @@ import Reservations from './components/ReservationArray';
 
 const App = () => {
 
+  const today = new Date();
+  const date = today.setDate(today.getDate())
+
   const [values, setValues] = useState({
     startDate:"",
     endDate:"",
@@ -20,31 +23,40 @@ const App = () => {
       id:1,
       name:"startDate",
       type:"date",
-      label: "Start date"
+      label: "Start date",
+      errorMessage: "Start date should be at least the one of today",
+      required: true
     },
     {
       id:2,
       name:"endDate",
       type:"date",
-      label:"End date"
+      label:"End date",
+      errorMessage: "The end date can't be set before the start date",
+      required: true
     },
     {
       id:3,
       name:"email",
       type:"text",
-      placeholder:"Email"
+      errorMessage: "It should be a valid email address",
+      placeholder:"Email",
+      required: true
     },
     {
       id:4,
       name:"resource",
       type:"text",
-      placeholder:"Resource"
+      errorMessage: "There is no such resource",
+      placeholder:"Resource",
+      required: true
     },
     {
       id:5,
       name:"comments",
       type:"text",
-      placeholder:"Comments"
+      placeholder:"Comments",
+      errorMessage: ""
     }
   ]
 
