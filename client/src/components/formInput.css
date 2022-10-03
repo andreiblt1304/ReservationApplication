@@ -4,8 +4,9 @@
 
 span{
     color: red;
+    display: none;
 }
 
-input:invalid ~ span {
+input:invalid[focused="true"] ~ span {
     display: block;
 }

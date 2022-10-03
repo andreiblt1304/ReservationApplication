@@ -8,7 +8,8 @@ import Reservations from './components/ReservationArray';
 const App = () => {
 
   const today = new Date();
-  const date = today.setDate(today.getDate())
+  const date = today.setDate(today.getDate());
+  const defaultDateValue = new Date(date).toISOString().split('T')[0];
 
   const [values, setValues] = useState({
     startDate:"",
@@ -25,7 +26,8 @@ const App = () => {
       type:"date",
       label: "Start date",
       errorMessage: "Start date should be at least the one of today",
-      required: true
+      required: true,
+      pattern: defaultDateValue
     },
     {
       id:2,
@@ -38,10 +40,10 @@ const App = () => {
     {
       id:3,
       name:"email",
-      type:"text",
+      type:"email",
       errorMessage: "It should be a valid email address",
       placeholder:"Email",
-      required: true
+      required: true,
     },
     {
       id:4,
