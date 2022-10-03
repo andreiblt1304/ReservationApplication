@@ -5,7 +5,9 @@ const connectedKnex = knex(
         client: "sqlite3",
         connection: {
             filename: "ReservationsDB.sqlite3"
-        }
+        },
+
+        useNullAsDefault: true
     }
 );
 

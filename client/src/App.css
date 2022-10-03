@@ -1,0 +1,22 @@
+*{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    
+}
+
+.title {
+    padding-top: 50px;
+    text-align: center;
+    font-size: 55px;
+}
+
+.reservationsList {
+    font-size: 20px;
+    padding-top: 50px;
+    margin-left: 5cm;
+}
+
+.addReservation {
+    font-size: 20px;
+    padding-top: 50px;
+    margin-left: 5cm;
+}
