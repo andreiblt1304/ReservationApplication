@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css'
 import './App.css';
 import FormInput from './components/FormInput';
 import Reservations from './components/ReservationArray';
 
 const App = () => {
-
+  const URL = "http://localhost:5005/reservations";
   const today = new Date();
   const date = today.setDate(today.getDate());
   const defaultDateValue = new Date(date).toISOString().split('T')[0];
@@ -14,8 +13,8 @@ const App = () => {
   const [values, setValues] = useState({
     startDate:"",
     endDate:"",
-    email:"",
     resource:"",
+    email:"",
     comments:""
   });
 
@@ -39,19 +38,19 @@ const App = () => {
     },
     {
       id:3,
-      name:"email",
-      type:"email",
-      errorMessage: "It should be a valid email address",
-      placeholder:"Email",
-      required: true,
-    },
-    {
-      id:4,
-      name:"resource",
+      name:"resourceId",
       type:"text",
       errorMessage: "There is no such resource",
       placeholder:"Resource",
       required: true
+    },
+    {
+      id:4,
+      name:"ownerEmail",
+      type:"email",
+      errorMessage: "It should be a valid email address",
+      placeholder:"Email",
+      required: true,
     },
     {
       id:5,
@@ -64,6 +63,29 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const inputs = new FormData(e.target);
+    const value = Object.fromEntries(inputs.entries());
+    console.log(inputs.entries);
+    var object = {};
+    inputs.forEach(function(value, key) {
+      object[key] = value;
+    })
+
+    var json = JSON.stringify(object);
+
+    console.log(object);
+
+      fetch(URL, {
+        method: "POST", 
+        header: {
+          "Content-type": "application/json"
+        },
+        body: json
+       }).then((response) => { 
+        window.location.reload(false);
+        return response.json() 
+      });
   }
 
   const onChange = (e) => {

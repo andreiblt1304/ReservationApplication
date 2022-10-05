@@ -2,6 +2,7 @@ const knex = require("./knex");
 
 function createReservation(reservation)
 {
+    console.log(reservation);
     return knex("reservations").insert(reservation);
 };
 
@@ -15,7 +16,7 @@ function deleteReservation(reservationId)
     return knex("reservations").where("reservationId", reservationId).del();
 }
 
-function updateReservation(id, reservation)
+function updateReservation(reservationId, reservation)
 {
     return knex("reservations").where("reservationId", reservationId).update(reservation);
 }

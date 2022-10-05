@@ -3,18 +3,28 @@ const bodyParser = require("body-parser");
 const app = express();
 const reservationOp = require("./DB/ReservationsOperations");
 const resourceOp = require("./DB/ResourcesOperations");
-const PORT = 8080;
+const PORT = 5005;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+
+    //req.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    next();
+})
 
 app.get("/reservations", async (req, res) => {
     const reservations = await reservationOp.getAllReservations();
+    console.log("sunt in get");
     res.status(200).json({ reservations });
 })
 
 app.post("/reservations", async (req, res) => {
     const result = await reservationOp.createReservation(req.body);
+    console.log(req.body);
     res.status(201).json({ id: result[0] });
 })
 
