@@ -69,8 +69,6 @@ const App = () => {
       object[key] = value;
     })
 
-    //var json = JSON.stringify(object);
-
     console.log(object);
 
     axios
@@ -81,18 +79,6 @@ const App = () => {
       .catch(err => {
         console.error(err);
     });
-
-    // fetch(URL, {
-    //   method: 'POST', 
-    //   headers: {
-    //     'Content-Type': 'text/json; charset=UTF-8',
-    //     'Accept': 'text/json'
-    //   },
-    //   body: JSON.stringify(object)
-    //   }).then((response) => { 
-    //   window.location.reload(false);
-    //   return response.json() 
-    // });
   }
 
   const onChange = (e) => {
