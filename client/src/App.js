@@ -3,12 +3,10 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './App.css';
 import FormInput from './components/FormInput';
 import Reservations from './components/ReservationArray';
+import axios from 'axios';
 
 const App = () => {
-  const URL = "http://localhost:5005/reservations";
-  const today = new Date();
-  const date = today.setDate(today.getDate());
-  const defaultDateValue = new Date(date).toISOString().split('T')[0];
+  const URL = "http://localhost:8080/reservations";
 
   const [values, setValues] = useState({
     startDate:"",
@@ -25,8 +23,7 @@ const App = () => {
       type:"date",
       label: "Start date",
       errorMessage: "Start date should be at least the one of today",
-      required: true,
-      pattern: defaultDateValue
+      required: true
     },
     {
       id:2,
@@ -72,20 +69,30 @@ const App = () => {
       object[key] = value;
     })
 
-    var json = JSON.stringify(object);
+    //var json = JSON.stringify(object);
 
     console.log(object);
 
-      fetch(URL, {
-        method: "POST", 
-        header: {
-          "Content-type": "application/json"
-        },
-        body: json
-       }).then((response) => { 
+    axios
+      .post(URL, object)
+      .then(() => {
         window.location.reload(false);
-        return response.json() 
-      });
+      })
+      .catch(err => {
+        console.error(err);
+    });
+
+    // fetch(URL, {
+    //   method: 'POST', 
+    //   headers: {
+    //     'Content-Type': 'text/json; charset=UTF-8',
+    //     'Accept': 'text/json'
+    //   },
+    //   body: JSON.stringify(object)
+    //   }).then((response) => { 
+    //   window.location.reload(false);
+    //   return response.json() 
+    // });
   }
 
   const onChange = (e) => {
@@ -110,7 +117,6 @@ const App = () => {
           <button>Submit</button>
         </form>
       </div>
-      
     </div>
   )
 }

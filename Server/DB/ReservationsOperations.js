@@ -3,22 +3,22 @@ const knex = require("./knex");
 function createReservation(reservation)
 {
     console.log(reservation);
-    return knex("reservations").insert(reservation);
+    return knex("Reservations").insert(reservation);
 };
 
 function getAllReservations()
 {
-    return knex("reservations").select("*");
+    return knex("Reservations").select("*");
 }
 
 function deleteReservation(reservationId)
 {
-    return knex("reservations").where("reservationId", reservationId).del();
+    return knex("Reservations").where("reservationId", reservationId).del();
 }
 
 function updateReservation(reservationId, reservation)
 {
-    return knex("reservations").where("reservationId", reservationId).update(reservation);
+    return knex("Reservations").where("reservationId", reservationId).update(reservation);
 }
 
 module.exports = {

@@ -3,18 +3,23 @@ const bodyParser = require("body-parser");
 const app = express();
 const reservationOp = require("./DB/ReservationsOperations");
 const resourceOp = require("./DB/ResourcesOperations");
-const PORT = 5005;
+const PORT = 8080;
+var cors = require("cors");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+app.use(cors({ origin: '*', credentials: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// app.all('*', function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//     res.header('Access-Control-Allow-Headers', 'X-Requested-With'); 
+//     res.header('Access-Control-Allow-Headers', 'Content-Type'); 
+//     res.header('Access-Control-Allow-Headers', 'Accept');
+//     res.header('Access-Control-Allow-Headers', 'Origin');
+//     //req.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+//     next();
+// })
 
-    //req.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-    next();
-})
 
 app.get("/reservations", async (req, res) => {
     const reservations = await reservationOp.getAllReservations();
@@ -23,15 +28,15 @@ app.get("/reservations", async (req, res) => {
 })
 
 app.post("/reservations", async (req, res) => {
+
+    if(req.body.reservationId != null)
+    {
+        const id = await reservationOp.updateReservation(req.params.id, req.body);
+    }
+
     const result = await reservationOp.createReservation(req.body);
     console.log(req.body);
     res.status(201).json({ id: result[0] });
-})
-
-//using patch to modify exact fields, not the entire information
-app.patch("/reservations/:id", async (req, res) => {
-    const id = await reservationOp.updateReservation(req.params.id, req.body);
-    res.status(200).json({ id });
 })
 
 app.delete("/reservations/:id", async (req, res) => {
