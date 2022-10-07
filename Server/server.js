@@ -9,23 +9,41 @@ var cors = require("cors");
 app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+var _reservations = null;
 
 app.get("/reservations", async (req, res) => {
     const reservations = await reservationOp.getAllReservations();
-    console.log("sunt in get");
+    _reservations = reservations;
     res.status(200).json({ reservations });
 })
 
 app.post("/reservations", async (req, res) => {
+    const parsedStartDate = Date.parse(req.body.startDate);
+    const parsedEndDate = Date.parse(req.body.endDate);
+    var isSameStartDate = false;
+    var isDateIntervalInvalid = false;
 
-    if(req.body.reservationId != null)
+    _reservations.forEach(obj => {
+        Object.entries(obj).forEach(([key, value]) => {
+            if(key === "startDate" && value === req.body.startDate)
+            {
+                isSameStartDate = true;
+                console.log("There is an appointment with that start date");
+            }
+        });
+    });
+
+    if(parsedStartDate > parsedEndDate)
     {
-        const id = await reservationOp.updateReservation(req.params.id, req.body);
+        isDateIntervalInvalid = true;
+        console.error("Start date should be before end date");
     }
-
-    const result = await reservationOp.createReservation(req.body);
-    console.log(req.body);
-    res.status(201).json({ id: result[0] });
+    
+    if(!isSameStartDate && !isDateIntervalInvalid)
+    {
+        const result = await reservationOp.createReservation(req.body);
+        res.status(201).json({ id: result[0] });
+    }
 })
 
 app.delete("/reservations/:id", async (req, res) => {

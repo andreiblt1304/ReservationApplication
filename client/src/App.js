@@ -91,7 +91,7 @@ const App = () => {
     <div className='mainForm'>
       <Reservations />
       <div className='addReservation'>
-        Add a reservation
+        Add an appointment
         <form onSubmit={handleSubmit}>
           {inputsArr.map((input) => (
             <FormInput 
